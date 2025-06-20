@@ -1,18 +1,22 @@
-# Utiliser une image officielle de Python
 FROM python:3.11-slim
 
-# Définir le dossier de travail
+# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers dans l'image Docker
+# Copier les fichiers du projet
 COPY . .
 
-# Installer les dépendances
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+# Installe Chromium pour les tests Selenium headless
+RUN apt-get update && apt-get install -y chromium chromium-driver \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Exposer le port Flask
+# Installer les dépendances
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Exposer le port utilisé par Flask
 EXPOSE 5000
 
-# Définir la commande de lancement de l'app Flask
+# Lancer l'application Flask
 CMD ["python", "api/app.py"]
