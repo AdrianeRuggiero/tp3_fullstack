@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculateur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="calculator-container">
+            <h2 class="text-center mb-4">Additionneur</h2>
+            <form id="sum-form">
+                <div class="mb-3">
+                    <label for="a" class="form-label">Nombre 1 :</label>
+                    <input type="number" id="a" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="b" class="form-label">Nombre 2 :</label>
+                    <input type="number" id="b" class="form-control" required>
+                </div>
+                <div id="error-message" class="text-danger mb-2 text-center" style="display:none;"></div>
+                <button type="submit" class="btn btn-primary">Calculer la somme</button>
+            </form>
+            <div id="result" class="mt-3 text-center fw-bold"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("sum-form");
+        const errorMessage = document.getElementById("error-message");
+        const resultDiv = document.getElementById("result");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+
+            if (a === "" || b === "") {
+                errorMessage.style.display = "block";
+                errorMessage.innerText = "Veuillez remplir les deux champs.";
+                return;
+            } else {
+                errorMessage.style.display = "none";
+            }
+
+            const response = await fetch("/sum", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ a: Number(a), b: Number(b) })
+            });
+
+            const data = await response.json();
+            resultDiv.innerText = `Résultat : ${data.result}`;
+        });
+    </script>
+</body>
+</html>
+

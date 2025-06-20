@@ -1,0 +1,22 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.calculator-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+input.form-control {
+    height: 45px;
+    font-size: 16px;
+}
+
+button.btn {
+    width: 100%;
+    font-size: 16px;
+}

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    networks:
+      - selenium-net
+
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    shm_size: 2g  # Important pour éviter les crashs de Chrome
+    ports:
+      - "4444:4444"  # Port WebDriver
+    networks:
+      - selenium-net
+
+networks:
+  selenium-net:
+    driver: bridge
