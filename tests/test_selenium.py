@@ -1,30 +1,41 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-driver.get("http://127.0.0.1:5000")  # Assure-toi que Flask est en cours d'exécution
+# Configuration headless de Chrome
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 
-# Trouver les champs de saisie avec les bons IDs
-input_a = driver.find_element(By.ID, "a")
-input_b = driver.find_element(By.ID, "b")
+# Initialisation du driver avec options headless
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-# Remplir les champs
-input_a.send_keys("5")
-input_b.send_keys("10")
+try:
+    driver.get("http://127.0.0.1:5000")
 
-# Cliquer sur le bouton
-button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-button.click()
+    # Trouver les champs de saisie avec les bons IDs
+    input_a = driver.find_element(By.ID, "a")
+    input_b = driver.find_element(By.ID, "b")
 
-# Attendre le résultat
-time.sleep(2)
+    # Remplir les champs
+    input_a.send_keys("5")
+    input_b.send_keys("10")
 
-# Vérifier le résultat
-result = driver.find_element(By.ID, "result")
-print("Résultat affiché :", result.text)
+    # Cliquer sur le bouton
+    button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+    button.click()
 
-# Fermer le navigateur
-driver.quit()
+    # Attendre que le résultat apparaisse
+    time.sleep(2)
+
+    # Vérifier le résultat
+    result = driver.find_element(By.ID, "result")
+    print("Résultat affiché :", result.text)
+
+finally:
+    # Fermer le navigateur proprement
+    driver.quit()
