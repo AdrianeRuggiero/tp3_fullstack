@@ -10,7 +10,7 @@ def client():
 def test_home(client):
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Bienvenue" in response.data
+    assert b"Calculateur" in response.data
 
 def test_sum(client):
     response = client.post("/sum", json={"a": 3, "b": 4})
