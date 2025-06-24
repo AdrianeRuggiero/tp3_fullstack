@@ -16,10 +16,10 @@ service = Service("/usr/bin/chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:
-    import time
-    time.sleep(5)  # Attendre 5 secondes
+    time.sleep(5)  # Attendre le démarrage de l'API Flask
 
-    driver.get("http://host.docker.internal:5000")
+    # 🔧 Adresse interne du service Flask (même réseau Docker)
+    driver.get("http://flask-app:5000")
 
     # Trouver les champs de saisie avec les bons IDs
     input_a = driver.find_element(By.ID, "a")
@@ -41,5 +41,4 @@ try:
     print("Résultat affiché :", result.text)
 
 finally:
-    # Fermer le navigateur proprement
     driver.quit()
