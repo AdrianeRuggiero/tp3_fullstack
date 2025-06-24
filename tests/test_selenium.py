@@ -16,6 +16,9 @@ service = Service("/usr/bin/chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:
+    import time
+    time.sleep(5)  # Attendre 5 secondes
+
     driver.get("http://host.docker.internal:5000")
 
     # Trouver les champs de saisie avec les bons IDs
