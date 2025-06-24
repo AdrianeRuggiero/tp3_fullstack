@@ -29,19 +29,20 @@ services:
       - dev-net
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
     container_name: jenkins
     ports:
       - "8080:8080"
-      - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
     networks:
       - dev-net
 
-volumes:
-  jenkins_home:
-
 networks:
   dev-net:
     driver: bridge
+
+volumes:
+  jenkins_home:
