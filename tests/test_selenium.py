@@ -16,7 +16,7 @@ service = Service("/usr/bin/chromedriver")
 driver = webdriver.Chrome(service=service, options=options)
 
 try:
-    driver.get("http://127.0.0.1:5000")
+    driver.get("http://flask-app:5000")
 
     # Trouver les champs de saisie avec les bons IDs
     input_a = driver.find_element(By.ID, "a")
