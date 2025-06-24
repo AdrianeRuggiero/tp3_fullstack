@@ -1,23 +1,31 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  web:
+  flask-app:
     build: .
+    container_name: flask-app
     ports:
       - "5000:5000"
-    volumes:
-      - .:/app
-    environment:
-      - FLASK_ENV=development
+    networks:
+      - selenium-net
 
-  jenkins:
-    image: jenkins/jenkins:lts
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    shm_size: 2g  # Important pour éviter les crashs de Chrome
     ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-    user: root # Pour autoriser apt-get
+      - "4444:4444"  # Port WebDriver
+    networks:
+      - selenium-net
 
-volumes:
-  jenkins_home:
+  sonarqube:
+    image: sonarqube:lts
+    container_name: sonarqube
+    ports:
+    - "9000:9000"
+    environment:
+    - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+
+networks:
+  selenium-net:
+    driver: bridge
