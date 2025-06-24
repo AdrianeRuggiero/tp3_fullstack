@@ -19,7 +19,7 @@ try:
     time.sleep(5)  # Attendre le démarrage de l'API Flask
 
     # 🔧 Adresse interne du service Flask (même réseau Docker)
-    driver.get("http://localhost:5000")
+    driver.get("http://flask-app:5000")
 
     # Trouver les champs de saisie avec les bons IDs
     input_a = driver.find_element(By.ID, "a")
