@@ -2,16 +2,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-# Configuration headless de Chrome
+# Configuration headless de Chrome pour Docker
 options = Options()
 options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# Utiliser le chromedriver installé dans l'image Docker
+service = Service("/usr/bin/chromedriver")
+
+driver = webdriver.Chrome(service=service, options=options)
 
 try:
     driver.get("http://127.0.0.1:5000")
